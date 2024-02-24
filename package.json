@@ -12,7 +12,6 @@
   "dependencies": {
     "@kuma-ui/core": "^1.5.6",
     "@kuma-ui/vite": "^1.2.2",
-    "japanese-json": "^2.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
