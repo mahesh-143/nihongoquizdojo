@@ -40,7 +40,6 @@ const theme = createTheme({
           color: "colors.primary",
           border: "none",
           _hover: {
-            bg: "colors.accent2",
             opacity: 0.7,
           },
         },

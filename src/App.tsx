@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <Box px={16} maxWidth="1280px" marginX="auto">
+      <Box px={16} maxWidth="1280px" marginX="auto" fontFamily="fonts.body">
         <Outlet />
       </Box>
     </>

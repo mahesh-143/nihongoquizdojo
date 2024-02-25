@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, HStack, Link, Text, VStack } from "@kuma-ui/core";
+import { Button, HStack, Link, Text } from "@kuma-ui/core";
 import { Link as ReactLink } from "react-router-dom";
 import { Logo } from "./ui/Logo";
 import { MdMenu } from "react-icons/md";
@@ -17,12 +17,11 @@ const navLinks = [
   { href: "/charts", key: "Charts", text: "Charts" },
 ];
 
-const NavLink = ({ href, key, text }: NavLinksTypes) => {
+const NavLink = ({ href, text }: NavLinksTypes) => {
   return (
     <Link
       as={ReactLink}
       to={href}
-      key={key}
       textDecoration="none"
       color="colors.primary"
       fontWeight={600}
