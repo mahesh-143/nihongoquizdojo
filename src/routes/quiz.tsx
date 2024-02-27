@@ -12,8 +12,12 @@ export const Quiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const [correctAnswers, setCorrectAnswers] = useState<string[]>([]);
   const [wrongAnswers, setWrongAnswers] = useState<string[]>([]);
+  const [selectedAnswer, setSelectedAnswer] = useState<string | undefined>();
+  const [isCorrect, setIsCorrect] = useState<Boolean | undefined>();
 
   const getQuestion = () => {
+    setSelectedAnswer(undefined);
+    setIsCorrect(undefined);
     const shuffledKanaData = [...hiragana].sort(() => Math.random() - 0.5);
     const allQuestions = shuffledKanaData;
     setQuestions(allQuestions);
@@ -24,12 +28,24 @@ export const Quiz = () => {
   };
 
   const handleAnswer = (selectedOption: string | undefined) => {
+    setSelectedAnswer(selectedOption);
     if (selectedOption === getCorrectAnswer()) {
       correctAnswers.push(questions[currentQuestion]?.kana);
+      setIsCorrect(true);
     } else {
       wrongAnswers.push(questions[currentQuestion]?.kana);
+      setIsCorrect(false);
     }
-    setCurrentQuestion((prevQuestion) => prevQuestion + 1);
+  };
+
+  const handleNextQuestion = () => {
+    if (currentQuestion + 1 < questions.length) {
+      setCurrentQuestion((prevQuestion) => prevQuestion + 1);
+      setSelectedAnswer(undefined);
+      setIsCorrect(undefined);
+    } else {
+      console.log("Quiz completed!");
+    }
   };
 
   const getShuffledOptions = () => {
@@ -65,9 +81,9 @@ export const Quiz = () => {
       >
         {questions.length > 0 && currentQuestion < questions.length ? (
           <>
-            <VStack>
-              <Text fontSize="fontSizes.xl" mb="1rem" alignSelf="left">
-                What letters this ?
+            <VStack gap="1rem">
+              <Text fontSize="fontSizes.xl" alignSelf="left">
+                What letter is this ?
               </Text>
               <Box
                 className={css`
@@ -82,24 +98,41 @@ export const Quiz = () => {
                 {questions[currentQuestion].kana}
               </Box>
             </VStack>
-            <Grid
-              my="auto"
-              width="fit-content"
-              gridTemplateColumns="repeat(2, 1fr)"
-              gap="1rem"
-            >
-              {getShuffledOptions().map((option, index) => (
-                <Button
-                  key={index}
-                  onClick={() => handleAnswer(option)}
-                  className={css`
-                    font-size: clamp(1rem, 1rem + 10vw, 1.4rem);
-                  `}
-                >
-                  {option}
+            {!selectedAnswer && (
+              <Grid
+                my="auto"
+                width="fit-content"
+                gridTemplateColumns="repeat(2, 1fr)"
+                gap="1rem"
+              >
+                {getShuffledOptions().map((option, index) => (
+                  <Button
+                    key={index}
+                    onClick={() => handleAnswer(option)}
+                    className={css`
+                      font-size: clamp(1rem, 1rem + 10vw, 1.4rem);
+                    `}
+                  >
+                    {option}
+                  </Button>
+                ))}
+              </Grid>
+            )}
+            {selectedAnswer && (
+              <VStack gap="1rem">
+                {isCorrect ? (
+                  <Text fontSize="fontSizes.lg">Well done!</Text>
+                ) : (
+                  <VStack gap="1rem">
+                    <Text fontSize="fontSizes.lg">False! It's</Text>
+                    <Text fontSize="4rem">{getCorrectAnswer()}</Text>
+                  </VStack>
+                )}
+                <Button variant="secondary" onClick={handleNextQuestion}>
+                  Next Letter
                 </Button>
-              ))}
-            </Grid>
+              </VStack>
+            )}
           </>
         ) : (
           <p>
@@ -123,44 +156,48 @@ export const Quiz = () => {
           <Text fontSize="fontSizes.lg" mb="1rem">
             {correctAnswers.length} correct
           </Text>
-          {correctAnswers.map((correctAnswer) => (
-            <Text
-              className={css`
-                font-size: clamp(1rem, 1rem + 10vw, 3rem);
-              `}
-              border="solid"
-              borderColor="green"
-              bg="white"
-              width="fit-content"
-              borderRadius="1rem"
-              p="1rem"
-              mt="0.5rem"
-            >
-              {correctAnswer}
-            </Text>
-          ))}
+          <Grid gridTemplateColumns="repeat(3, 1fr)" gap="0.5rem">
+            {correctAnswers.map((correctAnswer) => (
+              <Text
+                className={css`
+                  font-size: clamp(1rem, 1rem + 10vw, 3rem);
+                `}
+                border="solid"
+                borderColor="green"
+                bg="white"
+                width="fit-content"
+                borderRadius="1rem"
+                p="1rem"
+                mt="0.5rem"
+              >
+                {correctAnswer}
+              </Text>
+            ))}
+          </Grid>
         </Box>
 
         <Box>
           <Text fontSize="fontSizes.lg" fontFamily="fonts.body" mb="1rem">
             {wrongAnswers.length} wrong
           </Text>
-          {wrongAnswers.map((wrongAnswer) => (
-            <Text
-              className={css`
-                font-size: clamp(1rem, 1rem + 10vw, 3rem);
-              `}
-              border="solid"
-              borderColor="red"
-              bg="white"
-              width="fit-content"
-              borderRadius="1rem"
-              p="1rem"
-              mt="0.5rem"
-            >
-              {wrongAnswer}
-            </Text>
-          ))}
+          <Grid gridTemplateColumns="repeat(3, 1fr)" gap="0.5rem">
+            {wrongAnswers.map((wrongAnswer) => (
+              <Text
+                className={css`
+                  font-size: clamp(1rem, 1rem + 10vw, 3rem);
+                `}
+                border="solid"
+                borderColor="red"
+                bg="white"
+                width="fit-content"
+                borderRadius="1rem"
+                p="1rem"
+                mt="0.5rem"
+              >
+                {wrongAnswer}
+              </Text>
+            ))}
+          </Grid>
         </Box>
       </Box>
     </>
