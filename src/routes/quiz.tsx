@@ -1,13 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { hiragana } from "../utils/hiragana.ts";
-import { Box, Button, Grid, css, Text, VStack } from "@kuma-ui/core";
+import { hiragana, katakana } from "../utils/kanaData.ts";
+import {
+  Box,
+  Button,
+  Grid,
+  css,
+  Text,
+  VStack,
+  HStack,
+  Link,
+} from "@kuma-ui/core";
 
 interface Kana {
   roumaji: string;
   kana: string;
 }
 
+type Category = "all" | "hiragana" | "katakana";
+
 export const Quiz = () => {
+  const [category, setCategory] = useState<Category>("all");
   const [questions, setQuestions] = useState<Kana[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const [correctAnswers, setCorrectAnswers] = useState<string[]>([]);
@@ -18,8 +30,23 @@ export const Quiz = () => {
   const getQuestion = () => {
     setSelectedAnswer(undefined);
     setIsCorrect(undefined);
-    const shuffledKanaData = [...hiragana].sort(() => Math.random() - 0.5);
-    const allQuestions = shuffledKanaData;
+    let allQuestions;
+    switch (category) {
+      case "all":
+        allQuestions = [...hiragana, ...katakana].sort(
+          () => Math.random() - 0.5,
+        );
+        break;
+      case "katakana":
+        allQuestions = [...katakana].sort(() => Math.random() - 0.5);
+        break;
+      case "hiragana":
+        allQuestions = [...hiragana].sort(() => Math.random() - 0.5);
+        break;
+      default:
+        console.error("Invalid category");
+        return;
+    }
     setQuestions(allQuestions);
   };
 
@@ -64,9 +91,64 @@ export const Quiz = () => {
 
   useEffect(() => {
     getQuestion();
-  }, []);
+  }, [category]);
   return (
     <>
+      <HStack
+        alignItems="center"
+        py="2em"
+        px={16}
+        maxWidth="1280px"
+        marginX="auto"
+        gap="2rem"
+        fontFamily="fonts.body"
+      >
+        <Link
+          textDecoration="none"
+          color="colors.primary"
+          fontWeight={600}
+          fontSize={"fontSizes.md"}
+          _hover={{
+            textDecoration: "underline",
+            textDecorationThickness: "3px",
+            textUnderlineOffset: "5px",
+            textDecorationColor: "colors.accent2",
+          }}
+          onClick={() => setCategory("all")}
+        >
+          <Text>All</Text>
+        </Link>
+        <Link
+          textDecoration="none"
+          color="colors.primary"
+          fontWeight={600}
+          fontSize={"fontSizes.md"}
+          _hover={{
+            textDecoration: "underline",
+            textDecorationThickness: "3px",
+            textUnderlineOffset: "5px",
+            textDecorationColor: "colors.accent2",
+          }}
+          onClick={() => setCategory("hiragana")}
+        >
+          <Text>Hiragana</Text>
+        </Link>
+        <Link
+          textDecoration="none"
+          color="colors.primary"
+          fontWeight={600}
+          fontSize={"fontSizes.md"}
+          _hover={{
+            textDecoration: "underline",
+            textDecorationThickness: "3px",
+            textUnderlineOffset: "5px",
+            textDecorationColor: "colors.accent2",
+          }}
+          onClick={() => setCategory("katakana")}
+        >
+          <Text>Katakana</Text>
+        </Link>
+      </HStack>
       <Box
         display="flex"
         flexDirection={["column", "column", "row"]}
