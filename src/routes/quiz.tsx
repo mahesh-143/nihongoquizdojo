@@ -234,7 +234,7 @@ export const Quiz = () => {
         maxW="948px"
         margin="auto"
       >
-        <Box>
+        <Box mx="auto">
           <Text fontSize="fontSizes.lg" mb="1rem">
             {correctAnswers.length} correct
           </Text>
@@ -242,7 +242,7 @@ export const Quiz = () => {
             {correctAnswers.map((correctAnswer) => (
               <Text
                 className={css`
-                  font-size: clamp(1rem, 1rem + 10vw, 3rem);
+                  font-size: clamp(0.5rem, 1rem + 10vw, 3rem);
                 `}
                 border="solid"
                 borderColor="green"
@@ -258,15 +258,15 @@ export const Quiz = () => {
           </Grid>
         </Box>
 
-        <Box>
+        <Box mx="auto">
           <Text fontSize="fontSizes.lg" fontFamily="fonts.body" mb="1rem">
             {wrongAnswers.length} wrong
           </Text>
-          <Grid gridTemplateColumns="repeat(3, 1fr)" gap="0.5rem">
+          <Grid gridTemplateColumns={["", "repeat(3, 1fr)"]} gap="0.5rem">
             {wrongAnswers.map((wrongAnswer) => (
               <Text
                 className={css`
-                  font-size: clamp(1rem, 1rem + 10vw, 3rem);
+                  font-size: clamp(0.5rem, 1rem + 10vw, 3rem);
                 `}
                 border="solid"
                 borderColor="red"
