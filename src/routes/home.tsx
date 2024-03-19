@@ -48,15 +48,15 @@ export const Home = () => {
         >
           Play Quiz
         </Button>
-        <Button
-          variant="secondary"
-          as={Link}
-          to="/info"
-          textDecoration="none"
-          fontFamily="fonts.body"
-        >
-          Learn more
-        </Button>
+        {/* <Button */}
+        {/*   variant="secondary" */}
+        {/*   as={Link} */}
+        {/*   to="#" */}
+        {/*   textDecoration="none" */}
+        {/*   fontFamily="fonts.body" */}
+        {/* > */}
+        {/*   Learn more */}
+        {/* </Button> */}
       </HStack>
     </Box>
   );

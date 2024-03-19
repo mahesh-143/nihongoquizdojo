@@ -1,6 +1,6 @@
 import React from "react";
-import { Button, HStack, Link, Text } from "@kuma-ui/core";
-import { Link as ReactLink } from "react-router-dom";
+import { Button, HStack, Link, Text, css } from "@kuma-ui/core";
+import { NavLink as ReactLink } from "react-router-dom";
 import { Logo } from "./ui/Logo";
 import { MdMenu } from "react-icons/md";
 
@@ -13,8 +13,6 @@ type NavLinksTypes = {
 const navLinks = [
   { href: "/", key: "Home", text: "Home" },
   { href: "/quiz", key: "Quiz", text: "Quiz" },
-  { href: "/info", key: "Info", text: "Info" },
-  { href: "/charts", key: "Charts", text: "Charts" },
 ];
 
 const NavLink = ({ href, text }: NavLinksTypes) => {
@@ -31,6 +29,17 @@ const NavLink = ({ href, text }: NavLinksTypes) => {
         textDecorationThickness: "3px",
         textUnderlineOffset: "5px",
         textDecorationColor: "colors.accent2",
+      }}
+      // @ts-ignore
+      className={({ isActive }) => {
+        console.log(isActive);
+        isActive
+          ? css`
+              color: red;
+            `
+          : css`
+              color: blue;
+            `;
       }}
     >
       <Text>{text}</Text>
