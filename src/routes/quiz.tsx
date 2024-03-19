@@ -235,10 +235,10 @@ export const Quiz = () => {
         margin="auto"
       >
         <Box mx="auto">
-          <Text fontSize="fontSizes.lg" mb="1rem">
+          <Text fontSize="fontSizes.lg" fontFamily="fonts.body" mb="1rem">
             {correctAnswers.length} correct
           </Text>
-          <Grid gridTemplateColumns="repeat(3, 1fr)" gap="0.5rem">
+          <Grid gridTemplateColumns={["", "repeat(3, 1fr)"]} gap="0.5rem">
             {correctAnswers.map((correctAnswer) => (
               <Text
                 className={css`
