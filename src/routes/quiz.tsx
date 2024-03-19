@@ -10,16 +10,58 @@ import {
   HStack,
   Link,
 } from "@kuma-ui/core";
+import { NavLink, useParams } from "react-router-dom";
 
 interface Kana {
-  roumaji: string;
   kana: string;
+  roumaji: string;
 }
 
-type Category = "all" | "hiragana" | "katakana";
+type NavLinksTypes = {
+  href: string;
+  key: string;
+  text: string;
+};
+
+const categoryLinks = [
+  { href: "/quiz/all", key: "Home", text: "All" },
+  { href: "/quiz/hiragana", key: "hiragana", text: "Hiragana" },
+  { href: "/quiz/katakana", key: "katakana", text: "Katakana" },
+];
+
+const CategoryLink = ({ href, text }: NavLinksTypes) => {
+  return (
+    <Link
+      as={NavLink}
+      to={href}
+      textDecoration="none"
+      color="colors.primary"
+      fontWeight={600}
+      fontSize={"fontSizes.md"}
+      _hover={{
+        textDecoration: "underline",
+        textDecorationThickness: "3px",
+        textUnderlineOffset: "5px",
+        textDecorationColor: "colors.accent2",
+      }}
+      style={({ isActive }: any) => {
+        return isActive
+          ? {
+              textDecoration: "underline",
+              textDecorationThickness: "3px",
+              textUnderlineOffset: "5px",
+              textDecorationColor: "#6B8E23",
+            }
+          : {};
+      }}
+    >
+      <Text>{text}</Text>
+    </Link>
+  );
+};
 
 export const Quiz = () => {
-  const [category, setCategory] = useState<Category>("all");
+  const [category, setCategory] = useState<string>("all");
   const [questions, setQuestions] = useState<Kana[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const [correctAnswers, setCorrectAnswers] = useState<string[]>([]);
@@ -27,6 +69,8 @@ export const Quiz = () => {
   const [selectedAnswer, setSelectedAnswer] = useState<string | undefined>();
   const [isCorrect, setIsCorrect] = useState<Boolean | undefined>();
 
+  let params = useParams();
+  console.log(params.category);
   const getQuestion = () => {
     setSelectedAnswer(undefined);
     setIsCorrect(undefined);
@@ -91,7 +135,10 @@ export const Quiz = () => {
 
   useEffect(() => {
     getQuestion();
-  }, [category]);
+    if (params.category) {
+      setCategory(params.category);
+    }
+  }, [params.category]);
   return (
     <>
       <HStack
@@ -103,51 +150,9 @@ export const Quiz = () => {
         gap="2rem"
         fontFamily="fonts.body"
       >
-        <Link
-          textDecoration="none"
-          color="colors.primary"
-          fontWeight={600}
-          fontSize={"fontSizes.md"}
-          _hover={{
-            textDecoration: "underline",
-            textDecorationThickness: "3px",
-            textUnderlineOffset: "5px",
-            textDecorationColor: "colors.accent2",
-          }}
-          onClick={() => setCategory("all")}
-        >
-          <Text>All</Text>
-        </Link>
-        <Link
-          textDecoration="none"
-          color="colors.primary"
-          fontWeight={600}
-          fontSize={"fontSizes.md"}
-          _hover={{
-            textDecoration: "underline",
-            textDecorationThickness: "3px",
-            textUnderlineOffset: "5px",
-            textDecorationColor: "colors.accent2",
-          }}
-          onClick={() => setCategory("hiragana")}
-        >
-          <Text>Hiragana</Text>
-        </Link>
-        <Link
-          textDecoration="none"
-          color="colors.primary"
-          fontWeight={600}
-          fontSize={"fontSizes.md"}
-          _hover={{
-            textDecoration: "underline",
-            textDecorationThickness: "3px",
-            textUnderlineOffset: "5px",
-            textDecorationColor: "colors.accent2",
-          }}
-          onClick={() => setCategory("katakana")}
-        >
-          <Text>Katakana</Text>
-        </Link>
+        {categoryLinks.map((link) => (
+          <CategoryLink key={link.key} href={link.href} text={link.text} />
+        ))}
       </HStack>
       <Box
         display="flex"

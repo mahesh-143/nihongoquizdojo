@@ -42,21 +42,12 @@ export const Home = () => {
       <HStack gap="spacings.md">
         <Button
           as={Link}
-          to="/quiz"
+          to="/quiz/all"
           textDecoration="none"
           fontFamily="fonts.body"
         >
           Play Quiz
         </Button>
-        {/* <Button */}
-        {/*   variant="secondary" */}
-        {/*   as={Link} */}
-        {/*   to="#" */}
-        {/*   textDecoration="none" */}
-        {/*   fontFamily="fonts.body" */}
-        {/* > */}
-        {/*   Learn more */}
-        {/* </Button> */}
       </HStack>
     </Box>
   );
