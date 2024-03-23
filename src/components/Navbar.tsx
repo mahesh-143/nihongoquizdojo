@@ -22,20 +22,11 @@ export const Navbar = () => {
       fontFamily="fonts.body"
     >
       <Logo />
-      <HStack
-        as="nav"
-        alignItems="center"
-        fontSize="1rem"
-        gap="2em"
-        display={["none", "none", "flex"]}
-      >
+      <HStack as="nav" alignItems="center" fontSize="1rem" gap="2em">
         {navLinks.map((link) => (
           <NavLink key={link.key} href={link.href} text={link.text} />
         ))}
       </HStack>
-      <Button variant="ghost" padding="0.6rem" display={["", "", "none"]}>
-        <MdMenu size={"1.5rem"} />
-      </Button>
     </HStack>
   );
 };
