@@ -12,16 +12,18 @@ import {
 } from "@kuma-ui/core";
 import { NavLink, useParams } from "react-router-dom";
 
-interface Kana {
+type Kana = {
   kana: string;
   roumaji: string;
-}
+};
 
 type NavLinksTypes = {
   href: string;
   key: string;
   text: string;
 };
+
+type Category = "all" | "hiragana" | "katakana";
 
 const categoryLinks = [
   { href: "/quiz/all", key: "Home", text: "All" },
@@ -61,7 +63,7 @@ const CategoryLink = ({ href, text }: NavLinksTypes) => {
 };
 
 export const Quiz = () => {
-  const [category, setCategory] = useState<string>("all");
+  const [category, setCategory] = useState<Category>("all");
   const [questions, setQuestions] = useState<Kana[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const [correctAnswers, setCorrectAnswers] = useState<string[]>([]);
@@ -70,7 +72,7 @@ export const Quiz = () => {
   const [isCorrect, setIsCorrect] = useState<Boolean | undefined>();
 
   let params = useParams();
-  console.log(params.category);
+
   const getQuestion = () => {
     setSelectedAnswer(undefined);
     setIsCorrect(undefined);
@@ -135,10 +137,21 @@ export const Quiz = () => {
 
   useEffect(() => {
     getQuestion();
-    if (params.category) {
-      setCategory(params.category);
+    switch (params.category) {
+      case "all":
+        setCategory("all");
+        break;
+      case "hiragana":
+        setCategory("hiragana");
+        break;
+      case "katakana":
+        setCategory("katakana");
+        break;
+      default:
+        //TODO: redirect to 404
+        break;
     }
-  }, [params.category]);
+  }, []);
   return (
     <>
       <HStack
