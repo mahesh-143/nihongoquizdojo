@@ -136,7 +136,6 @@ export const Quiz = () => {
   };
 
   useEffect(() => {
-    getQuestion();
     switch (params.category) {
       case "all":
         setCategory("all");
@@ -151,7 +150,10 @@ export const Quiz = () => {
         //TODO: redirect to 404
         break;
     }
-  }, []);
+  }, [params.category]);
+  useEffect(() => {
+    getQuestion();
+  }, [category]);
   return (
     <>
       <HStack
