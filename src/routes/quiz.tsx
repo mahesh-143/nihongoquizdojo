@@ -1,26 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { hiragana, katakana } from "../utils/kanaData.ts";
-import {
-  Box,
-  Button,
-  Grid,
-  css,
-  Text,
-  VStack,
-  HStack,
-  Link,
-} from "@kuma-ui/core";
-import { NavLink, useParams } from "react-router-dom";
+import { Box, Button, Grid, css, Text, VStack, HStack } from "@kuma-ui/core";
+import { useParams } from "react-router-dom";
+import NavLink from "../components/ui/NavLink.tsx";
 
 type Kana = {
   kana: string;
   roumaji: string;
-};
-
-type NavLinksTypes = {
-  href: string;
-  key: string;
-  text: string;
 };
 
 type Category = "all" | "hiragana" | "katakana";
@@ -30,37 +16,6 @@ const categoryLinks = [
   { href: "/quiz/hiragana", key: "hiragana", text: "Hiragana" },
   { href: "/quiz/katakana", key: "katakana", text: "Katakana" },
 ];
-
-const CategoryLink = ({ href, text }: NavLinksTypes) => {
-  return (
-    <Link
-      as={NavLink}
-      to={href}
-      textDecoration="none"
-      color="colors.primary"
-      fontWeight={600}
-      fontSize={"fontSizes.md"}
-      _hover={{
-        textDecoration: "underline",
-        textDecorationThickness: "3px",
-        textUnderlineOffset: "5px",
-        textDecorationColor: "colors.accent2",
-      }}
-      style={({ isActive }: any) => {
-        return isActive
-          ? {
-              textDecoration: "underline",
-              textDecorationThickness: "3px",
-              textUnderlineOffset: "5px",
-              textDecorationColor: "#6B8E23",
-            }
-          : {};
-      }}
-    >
-      <Text>{text}</Text>
-    </Link>
-  );
-};
 
 export const Quiz = () => {
   const [category, setCategory] = useState<Category>("all");
@@ -166,7 +121,7 @@ export const Quiz = () => {
         fontFamily="fonts.body"
       >
         {categoryLinks.map((link) => (
-          <CategoryLink key={link.key} href={link.href} text={link.text} />
+          <NavLink key={link.key} href={link.href} text={link.text} />
         ))}
       </HStack>
       <Box
