@@ -10,7 +10,7 @@ export function Footer() {
       alignItems="center"
       fontFamily="fonts.body"
     >
-      <Text textAlign="center" margin="auto">
+      <Text textAlign="center" margin="auto" fontSize="fontSizes.sm">
         © 2024 <a href="https://github.com/mahesh-143">Mahesh Odedara</a>. All
         rights reserved.
       </Text>
